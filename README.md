@@ -1,1 +1,1 @@
-![Demo](images/hike-demo.gif)
+<img src="images/hike-demo.gif" width="300">
