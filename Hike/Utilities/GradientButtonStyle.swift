@@ -14,7 +14,7 @@ struct GradientButtonStyle: ButtonStyle {
         configuration
             .label
             .padding(.vertical)
-            .padding(.horizontal, 30)
+            .padding(.horizontal, Constants.Component.buttonHorizontalPadding)
             .background(
                 configuration.isPressed ?
                 LinearGradient(
@@ -28,6 +28,6 @@ struct GradientButtonStyle: ButtonStyle {
                     endPoint: .bottom
                 )
             )
-            .cornerRadius(40)
+            .cornerRadius(Constants.Component.buttonCornerRadius)
     }
 }

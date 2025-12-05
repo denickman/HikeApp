@@ -9,12 +9,13 @@ import SwiftUI
 
 struct MotionAnimationView: View {
     
-    @State private var randomCircle = Int.random(in: 6...12)
+    @State private var randomCircle = Int.random(in: Constants.Animation.circleCountRange)
     @State private var isAnimating = false
     
     var animation: Animation = {
         .interpolatingSpring(
-            stiffness: 0.25, damping: 0.25
+            stiffness: Constants.Animation.springStiffness,
+            damping: Constants.Animation.springDamping
         )
         .repeatForever(autoreverses: true)
     }()
@@ -24,7 +25,7 @@ struct MotionAnimationView: View {
             ForEach(0...randomCircle, id: \.self) { item in
                 Circle()
                     .foregroundColor(.white)
-                    .opacity(0.25)
+                    .opacity(Constants.Animation.circleOpacity)
                     .frame(width: randomSize())
                     .position(
                         x: randomCoordinate(),
@@ -40,7 +41,8 @@ struct MotionAnimationView: View {
                     .onAppear {
                         withAnimation(
                             .interpolatingSpring(
-                                stiffness: 0.25, damping: 0.25
+                                stiffness: Constants.Animation.springStiffness,
+                                damping: Constants.Animation.springDamping
                             )
                             .repeatForever(autoreverses: true)
                             .speed(randomSpeed())
@@ -51,7 +53,7 @@ struct MotionAnimationView: View {
                     }
             }
         }
-        .frame(width: 256, height: 256)
+        .frame(width: Constants.Animation.circleSize, height: Constants.Animation.circleSize)
         .mask(Circle())
     }
 }
@@ -70,31 +72,31 @@ extension MotionAnimationView {
     // MARK: - Methods
     // 1. random coordinate
     func randomCoordinate() -> CGFloat {
-        return CGFloat.random(in: 0...256)
+        return CGFloat.random(in: Constants.Animation.coordinateRange)
     }
     
     
     // 2. random size
     func randomSize() -> CGFloat {
-        return CGFloat(Int.random(in: 4...80))
+        return CGFloat(Int.random(in: Constants.Animation.sizeRange))
     }
     
     
     // 3. random scale
     func randomScale() -> CGFloat {
-        return CGFloat(Double.random(in: 0.1...2.0))
+        return CGFloat(Double.random(in: Constants.Animation.scaleRange))
     }
     
     
     // 4. random speed
     func randomSpeed() -> Double {
-        return Double.random(in: 0.25...1.0)
+        return Double.random(in: Constants.Animation.speedRange)
     }
     
     
     // 5. random delay
     func randomDelay() -> Double {
-        return Double.random(in: 0...2)
+        return Double.random(in: Constants.Animation.delayRange)
     }
     
     

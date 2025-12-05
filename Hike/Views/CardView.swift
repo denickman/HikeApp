@@ -22,12 +22,12 @@ struct CardView: View {
                 FooterView()
             }
         }
-        .frame(width: 320, height: 570)
+        .frame(width: Constants.Layout.cardWidth, height: Constants.Layout.cardHeight)
     }
     
     private func randomImage() {
         repeat {
-            randomNumber = Int.random(in: 1...5)
+            randomNumber = Int.random(in: Constants.Images.imageRange)
         } while randomNumber == imageNumber
         
         imageNumber = randomNumber
@@ -36,9 +36,9 @@ struct CardView: View {
     private func HeaderView() -> some View {
         VStack(alignment: .leading) {
             HStack {
-                Text("Hiking")
+                Text(Constants.Strings.CardView.title)
                     .fontWeight(.black)
-                    .font(.system(size: 52))
+                    .font(.system(size: Constants.Typography.titleFontSize))
                     .foregroundStyle(
                         LinearGradient(colors: [.customGrayLight, .customGrayMedium], startPoint: .top, endPoint: .bottom)
                     )
@@ -57,12 +57,12 @@ struct CardView: View {
                         .presentationDetents([.medium, .large])
                 }
             }
-            Text("Fun and enjoyable activities outdoor activity for friends and families")
+            Text(Constants.Strings.CardView.subtitle)
                 .multilineTextAlignment(.leading)
                 .italic()
                 .foregroundColor(.customGrayMedium)
         }
-        .padding(.horizontal, 30)
+        .padding(.horizontal, Constants.Layout.horizontalPadding)
     }
 
     
@@ -72,7 +72,7 @@ struct CardView: View {
             Image("image-\(imageNumber)")
                 .resizable()
                 .scaledToFit()
-                .animation(.easeInOut(duration: 0.25), value: imageNumber)
+                .animation(.easeInOut(duration: Constants.Animation.imageTransitionDuration), value: imageNumber)
         }
     }
     
@@ -80,7 +80,7 @@ struct CardView: View {
         Button {
             randomImage()
         } label: {
-            Text("Explore more")
+            Text(Constants.Strings.CardView.exploreButton)
                 .font(.title2)
                 .fontWeight(.heavy)
                 .foregroundStyle(
@@ -91,7 +91,10 @@ struct CardView: View {
                     )
                 )
                 .shadow(
-                    color: .black.opacity(0.25), radius: 0.25, x: 1, y: 2
+                    color: .black.opacity(Constants.Shadow.opacity),
+                    radius: Constants.Shadow.radius,
+                    x: Constants.Shadow.x,
+                    y: Constants.Shadow.y
                 )
         }
         .buttonStyle(GradientButtonStyle())

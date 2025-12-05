@@ -22,12 +22,12 @@ struct CustomButtonView: View {
                         colors: [.customGrayLight, .customGrayMedium],
                         startPoint: .top,
                         endPoint: .bottom),
-                    lineWidth: 4
+                    lineWidth: Constants.Component.buttonBorderWidth
                 )
             
             Image(systemName: "figure.hiking")
                 .fontWeight(.black)
-                .font(.system(size: 30))
+                .font(.system(size: Constants.Component.buttonIconSize))
                 .foregroundStyle(
                     LinearGradient(
                         colors: [.customGrayLight, .customGrayMedium],
@@ -36,7 +36,7 @@ struct CustomButtonView: View {
                     )
                 )
         }
-        .frame(width: 50, height: 50)
+        .frame(width: Constants.Component.buttonSize, height: Constants.Component.buttonSize)
     }
 }
 

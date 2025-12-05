@@ -13,20 +13,20 @@ struct CustomBackgroundView: View {
     var body: some View {
         ZStack {
             Color.colorGreenDark
-                .clipShape(RoundedRectangle(cornerRadius: 40))
-                .offset(y: 12)
+                .clipShape(RoundedRectangle(cornerRadius: Constants.Background.cornerRadius))
+                .offset(y: Constants.Background.topOffset)
             
             Color.colorGreenLight
-                .clipShape(RoundedRectangle(cornerRadius: 40))
-                .offset(y: 3)
-                .opacity(0.5)
+                .clipShape(RoundedRectangle(cornerRadius: Constants.Background.cornerRadius))
+                .offset(y: Constants.Background.middleOffset)
+                .opacity(Constants.Background.middleOpacity)
             
             LinearGradient(
                 colors: [Color.colorGreenLight, Color.colorGreenMedium],
                 startPoint: .top,
                 endPoint: .bottom
             )
-            .clipShape(RoundedRectangle(cornerRadius: 40))
+            .clipShape(RoundedRectangle(cornerRadius: Constants.Background.cornerRadius))
         }
     }
 }

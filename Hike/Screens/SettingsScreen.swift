@@ -9,14 +9,7 @@ import SwiftUI
 
 struct SettingsScreen: View {
     
-    private let alternateAppIcons: [String] = [
-        "AppIcon-MagnifyingGlass",
-        "AppIcon-Map",
-        "AppIcon-Mushroom",
-        "AppIcon-Camera",
-        "AppIcon-Backpack",
-        "AppIcon-Campfire"
-    ]
+    private let alternateAppIcons: [String] = Constants.Settings.alternateAppIcons
     
     var body: some View {
         List {
@@ -32,17 +25,17 @@ struct SettingsScreen: View {
                 Spacer()
                 
                 Image(systemName: "laurel.leading")
-                    .font(.system(size: 80, weight: .black))
+                    .font(.system(size: Constants.Typography.headerIconSize, weight: .black))
                 
-                VStack(spacing: -10) {
-                    Text("Hike")
-                        .font(.system(size: 66, weight: .black))
-                    Text("Editors` Choice")
+                VStack(spacing: Constants.Typography.headerSpacing) {
+                    Text(Constants.Strings.SettingsScreen.appName)
+                        .font(.system(size: Constants.Typography.headerTitleSize, weight: .black))
+                    Text(Constants.Strings.SettingsScreen.editorChoice)
                         .fontWeight(.medium)
                 }
                 
                 Image(systemName: "laurel.trailing")
-                    .font(.system(size: 80, weight: .black))
+                    .font(.system(size: Constants.Typography.headerIconSize, weight: .black))
                 
                 Spacer()
             }
@@ -53,39 +46,39 @@ struct SettingsScreen: View {
                     endPoint: .bottom
                 )
             )
-            .padding(.top, 8)
+            .padding(.top, Constants.Typography.topPadding)
             
-            VStack(spacing: 8) {
-                Text("Where can you find \nperfect tracks?")
+            VStack(spacing: Constants.Typography.sectionSpacing) {
+                Text(Constants.Strings.SettingsScreen.headerTitle)
                     .font(.title2)
                     .fontWeight(.heavy)
                 
-                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. In accumsan libero risus. Suspendisse vulputate lobortis augue at vehicula. Proin et aliquam nibh. Fusce vel consectetur purus. Nunc scelerisque mi ut sem tincidunt, in pharetra velit convallis.")
+                Text(Constants.Strings.SettingsScreen.headerDescription)
                     .font(.footnote)
                     .italic()
                 
-                Text("Dust off the boots. It is time for a walk!")
+                Text(Constants.Strings.SettingsScreen.headerFooter)
                     .fontWeight(.heavy)
                     .foregroundColor(.customGreenMedium)
             }
             .multilineTextAlignment(.center)
-            .padding(.bottom, 16)
+            .padding(.bottom, Constants.Typography.bottomPadding)
             .frame(maxWidth: .infinity)
         }
         .listRowSeparator(.hidden)
     }
     
     private func MiddleContentView() -> some View {
-        Section(header: Text("Alternate Icons")) {
+        Section(header: Text(Constants.Strings.SettingsScreen.alternateIconsHeader)) {
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
+                HStack(spacing: Constants.Spacing.iconPreviewSpacing) {
                     ForEach(alternateAppIcons.indices, id: \.self) { item in
                         Button {
                             UIApplication.shared.setAlternateIconName(alternateAppIcons[item]) { error in
                                 if error != nil {
-                                    print("Failed request to update the app`s icon: \(String(describing: error?.localizedDescription))")
+                                    print("\(Constants.Strings.Errors.iconChangeFailed) \(String(describing: error?.localizedDescription))")
                                 } else {
-                                    print("Success changed app icon")
+                                    print(Constants.Strings.Errors.iconChangeSuccess)
                                 }
                                 
                             }
@@ -93,83 +86,83 @@ struct SettingsScreen: View {
                             Image("\(alternateAppIcons[item])-Preview")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 80, height: 80)
-                                .cornerRadius(16)
+                                .frame(width: Constants.Layout.iconPreviewSize, height: Constants.Layout.iconPreviewSize)
+                                .cornerRadius(Constants.Layout.iconPreviewCornerRadius)
                         }
                         .buttonStyle(.borderless)
                     }
                 }
             }
-            .padding(.top, 12)
+            .padding(.top, Constants.Settings.iconPreviewTopPadding)
             
-            Text("Choose your favourite app icon from the collection above")
+            Text(Constants.Strings.SettingsScreen.alternateIconsDescription)
                 .frame(minWidth: .zero, maxWidth: .infinity)
                 .multilineTextAlignment(.center)
                 .foregroundColor(.secondary)
                 .font(.footnote)
-                .padding(.bottom, 12)
+                .padding(.bottom, Constants.Settings.iconPreviewBottomPadding)
         }
         .listRowSeparator(.hidden)
     }
     
     private func FooterView() -> some View {
-        Section(header: Text("About the app"),
+        Section(header: Text(Constants.Strings.SettingsScreen.aboutHeader),
                 footer: HStack {
             Spacer()
-            Text("Copyright © All right reserved.")
+            Text(Constants.Strings.SettingsScreen.copyright)
             Spacer()
         }
-            .padding(.vertical, 8)
+            .padding(.vertical, Constants.Settings.footerVerticalPadding)
         ) {
             
             CustomListRowView(
-                rowLabel: "Application",
+                rowLabel: Constants.Strings.SettingsScreen.AppInfo.application,
                 rowIcon: "apps.iphone",
-                rowContent: "Hike",
+                rowContent: Constants.Strings.SettingsScreen.AppInfo.applicationValue,
                 rowTintColor: .blue
             )
             
             CustomListRowView(
-                rowLabel: "Compatibility",
+                rowLabel: Constants.Strings.SettingsScreen.AppInfo.compatibility,
                 rowIcon: "info.circle",
-                rowContent: "iOS",
+                rowContent: Constants.Strings.SettingsScreen.AppInfo.compatibilityValue,
                 rowTintColor: .red
             )
             
             CustomListRowView(
-                rowLabel: "Technology",
+                rowLabel: Constants.Strings.SettingsScreen.AppInfo.technology,
                 rowIcon: "swift",
-                rowContent: "Swift",
+                rowContent: Constants.Strings.SettingsScreen.AppInfo.technologyValue,
                 rowTintColor: .orange
             )
             
             CustomListRowView(
-                rowLabel: "App version",
+                rowLabel: Constants.Strings.SettingsScreen.AppInfo.appVersion,
                 rowIcon: "gear",
-                rowContent: "1.0",
+                rowContent: Constants.Strings.SettingsScreen.AppInfo.appVersionValue,
                 rowTintColor: .purple
             )
             
             CustomListRowView(
-                rowLabel: "Developer",
+                rowLabel: Constants.Strings.SettingsScreen.AppInfo.developer,
                 rowIcon: "ellipsis.curlybraces",
-                rowContent: "Alex Chacku",
+                rowContent: Constants.Strings.SettingsScreen.AppInfo.developerValue,
                 rowTintColor: .mint
             )
             
             CustomListRowView(
-                rowLabel: "Designer",
+                rowLabel: Constants.Strings.SettingsScreen.AppInfo.designer,
                 rowIcon: "paintpalette",
-                rowContent: "Nestor Ivan",
+                rowContent: Constants.Strings.SettingsScreen.AppInfo.designerValue,
                 rowTintColor: .pink
             )
             
             CustomListRowView(
-                rowLabel: "Website",
+                rowLabel: Constants.Strings.SettingsScreen.AppInfo.website,
                 rowIcon: "globe",
                 rowTintColor: .indigo,
-                rowLinkLabel: "Credo Academy",
-                rowLinkDestination: "https://www.gmail.com"
+                rowLinkLabel: Constants.Strings.SettingsScreen.AppInfo.websiteValue,
+                rowLinkDestination: Constants.Strings.SettingsScreen.AppInfo.websiteURL
             )
         }
     }

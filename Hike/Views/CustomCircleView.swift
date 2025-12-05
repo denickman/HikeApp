@@ -26,7 +26,7 @@ struct CustomCircleView: View {
                     )
                 )
                 .onAppear {
-                    withAnimation(.easeInOut(duration: 3.0).repeatForever(autoreverses: true)) {
+                    withAnimation(.easeInOut(duration: Constants.Animation.gradientDuration).repeatForever(autoreverses: true)) {
                         isAnimationGradient.toggle()
                     }
                 }
@@ -34,7 +34,7 @@ struct CustomCircleView: View {
             MotionAnimationView()
             
         }
-        .frame(width: 256, height: 256)
+        .frame(width: Constants.Animation.circleSize, height: Constants.Animation.circleSize)
         .mask(Circle())
         .drawingGroup()
     }

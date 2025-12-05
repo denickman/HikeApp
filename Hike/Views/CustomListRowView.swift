@@ -33,9 +33,9 @@ struct CustomListRowView: View {
             HStack {
                 
                 ZStack {
-                    RoundedRectangle(cornerRadius: 10)
+                    RoundedRectangle(cornerRadius: Constants.Component.listRowCornerRadius)
                         .fill(rowTintColor)
-                        .frame(width: 30, height: 30)
+                        .frame(width: Constants.Component.listRowIconSize, height: Constants.Component.listRowIconSize)
                     
                     Image(systemName: rowIcon)
                         .foregroundColor(.white)
