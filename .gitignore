@@ -1,0 +1,65 @@
+# Xcode
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcworkspace/contents.xcworkspacedata
+*.xcworkspace/xcuserdata/
+*.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+
+# Build
+build/
+DerivedData/
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.swiftpm/
+.build/
+Packages/
+*.xcodeproj
+
+# CocoaPods (если используешь)
+Pods/
+*.xcworkspace
+
+# Dependency managers
+Carthage/Build/
+
+# User settings
+xcuserdata/
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.pbxuser
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear in the root
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Cursor/VS Code
+.vscode/
+.cursor/
+
+# Secrets
+*.env
+Config.xcconfig
+GoogleService-Info.plist
+
+# Firebase
+firebase_app_id_file.json
