@@ -1,9 +1,3 @@
-//
-//  CardViewModel.swift
-//  Hike
-//
-//  Created by Denis Yaremenko on 06.06.2025.
-//
 
 import Foundation
 import SwiftUI
@@ -39,5 +33,6 @@ class CardViewModel: ObservableObject {
         "image-\(imageNumber)"
     }
 }
+
 
 

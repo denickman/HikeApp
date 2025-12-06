@@ -1,9 +1,3 @@
-//
-//  CardView.swift
-//  Hike
-//
-//  Created by Denis Yaremenko on 06.06.2025.
-//
 
 import SwiftUI
 
