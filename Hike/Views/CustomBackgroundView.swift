@@ -9,20 +9,21 @@ import SwiftUI
 
 struct CustomBackgroundView: View {
     
+    @Environment(\.colorScheme) private var colorScheme
     
     var body: some View {
         ZStack {
-            Color.colorGreenDark
+            Color.customGreenDark
                 .clipShape(RoundedRectangle(cornerRadius: Constants.Background.cornerRadius))
                 .offset(y: Constants.Background.topOffset)
             
-            Color.colorGreenLight
+            Color.customGreenLight
                 .clipShape(RoundedRectangle(cornerRadius: Constants.Background.cornerRadius))
                 .offset(y: Constants.Background.middleOffset)
                 .opacity(Constants.Background.middleOpacity)
             
             LinearGradient(
-                colors: [Color.colorGreenLight, Color.colorGreenMedium],
+                colors: Color.backgroundGradientColors(for: colorScheme),
                 startPoint: .top,
                 endPoint: .bottom
             )

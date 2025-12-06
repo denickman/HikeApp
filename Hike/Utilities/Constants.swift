@@ -140,6 +140,7 @@ enum Constants {
         }
         
         enum Errors {
+            static let alertTitle = "Error"
             static let iconChangeFailed = "Failed request to update the app`s icon:"
             static let iconChangeSuccess = "Success changed app icon"
         }

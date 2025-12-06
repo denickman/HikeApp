@@ -12,32 +12,19 @@ struct MotionAnimationView: View {
     @State private var randomCircle = Int.random(in: Constants.Animation.circleCountRange)
     @State private var isAnimating = false
     
-    var animation: Animation = {
-        .interpolatingSpring(
-            stiffness: Constants.Animation.springStiffness,
-            damping: Constants.Animation.springDamping
-        )
-        .repeatForever(autoreverses: true)
-    }()
+    // Cache random values to avoid regenerating on every view update
+    @State private var circleData: [CircleData] = []
     
     var body: some View {
         ZStack {
-            ForEach(0...randomCircle, id: \.self) { item in
+            ForEach(circleData.indices, id: \.self) { index in
+                let data = circleData[index]
                 Circle()
                     .foregroundColor(.white)
                     .opacity(Constants.Animation.circleOpacity)
-                    .frame(width: randomSize())
-                    .position(
-                        x: randomCoordinate(),
-                        y: randomCoordinate()
-                    )
-                    .scaleEffect(isAnimating ? randomScale() :  1)
-//                    .animation(
-//                        animation
-//                        .speed(randomSpeed())
-//                        .delay(randomDelay()),
-//                               value: isAnimating
-//                    )
+                    .frame(width: data.size)
+                    .position(x: data.x, y: data.y)
+                    .scaleEffect(isAnimating ? data.scale : 1)
                     .onAppear {
                         withAnimation(
                             .interpolatingSpring(
@@ -45,8 +32,8 @@ struct MotionAnimationView: View {
                                 damping: Constants.Animation.springDamping
                             )
                             .repeatForever(autoreverses: true)
-                            .speed(randomSpeed())
-                            .delay(randomDelay())
+                            .speed(data.speed)
+                            .delay(data.delay)
                         ) {
                             isAnimating.toggle()
                         }
@@ -55,7 +42,33 @@ struct MotionAnimationView: View {
         }
         .frame(width: Constants.Animation.circleSize, height: Constants.Animation.circleSize)
         .mask(Circle())
+        .onAppear {
+            generateCircleData()
+        }
     }
+    
+    private func generateCircleData() {
+        circleData = (0...randomCircle).map { _ in
+            CircleData(
+                size: CGFloat(Int.random(in: Constants.Animation.sizeRange)),
+                x: CGFloat.random(in: Constants.Animation.coordinateRange),
+                y: CGFloat.random(in: Constants.Animation.coordinateRange),
+                scale: CGFloat(Double.random(in: Constants.Animation.scaleRange)),
+                speed: Double.random(in: Constants.Animation.speedRange),
+                delay: Double.random(in: Constants.Animation.delayRange)
+            )
+        }
+    }
+}
+
+// MARK: - CircleData Model
+private struct CircleData {
+    let size: CGFloat
+    let x: CGFloat
+    let y: CGFloat
+    let scale: CGFloat
+    let speed: Double
+    let delay: Double
 }
 
 #Preview {
@@ -66,39 +79,4 @@ struct MotionAnimationView: View {
         )
 }
 
-extension MotionAnimationView {
-    
-    
-    // MARK: - Methods
-    // 1. random coordinate
-    func randomCoordinate() -> CGFloat {
-        return CGFloat.random(in: Constants.Animation.coordinateRange)
-    }
-    
-    
-    // 2. random size
-    func randomSize() -> CGFloat {
-        return CGFloat(Int.random(in: Constants.Animation.sizeRange))
-    }
-    
-    
-    // 3. random scale
-    func randomScale() -> CGFloat {
-        return CGFloat(Double.random(in: Constants.Animation.scaleRange))
-    }
-    
-    
-    // 4. random speed
-    func randomSpeed() -> Double {
-        return Double.random(in: Constants.Animation.speedRange)
-    }
-    
-    
-    // 5. random delay
-    func randomDelay() -> Double {
-        return Double.random(in: Constants.Animation.delayRange)
-    }
-    
-    
-}
 

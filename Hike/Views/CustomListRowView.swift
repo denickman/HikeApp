@@ -9,21 +9,23 @@ import SwiftUI
 
 struct CustomListRowView: View {
     
-    @State var rowLabel: String
-    @State var rowIcon: String
-    @State var rowContent: String? = nil
-    @State var rowTintColor: Color
-    @State var rowLinkLabel: String? = nil
-    @State var rowLinkDestination: String? = nil
+    let rowLabel: String
+    let rowIcon: String
+    let rowContent: String?
+    let rowTintColor: Color
+    let rowLinkLabel: String?
+    let rowLinkDestination: String?
     
     var body: some View {
         LabeledContent {
-            if rowContent != nil {
-                Text(rowContent!)
+            if let content = rowContent {
+                Text(content)
                     .foregroundColor(.primary)
                     .fontWeight(.heavy)
-            } else if rowLinkLabel != nil && rowLinkDestination != nil {
-                Link(rowLinkLabel!, destination: URL(string: rowLinkDestination!)!)
+            } else if let linkLabel = rowLinkLabel,
+                      let linkDestination = rowLinkDestination,
+                      let url = URL(string: linkDestination) {
+                Link(linkLabel, destination: url)
                     .foregroundColor(.pink)
                     .fontWeight(.heavy)
             } else {

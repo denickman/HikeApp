@@ -10,21 +10,17 @@ import SwiftUI
 
 struct GradientButtonStyle: ButtonStyle {
     
+    @Environment(\.colorScheme) private var colorScheme
+    
     func makeBody(configuration: Configuration) -> some View {
         configuration
             .label
             .padding(.vertical)
             .padding(.horizontal, Constants.Component.buttonHorizontalPadding)
             .background(
-                configuration.isPressed ?
                 LinearGradient(
-                    colors: [.customGrayMedium, .customGrayLight],
+                    colors: Color.buttonStyleGradientColors(for: colorScheme, isPressed: configuration.isPressed),
                     startPoint: .top,
-                    endPoint: .bottom
-                )
-                : LinearGradient(
-                    colors: [.customGrayLight, .customGrayMedium],
-                    startPoint:  .top,
                     endPoint: .bottom
                 )
             )

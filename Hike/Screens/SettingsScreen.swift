@@ -9,13 +9,25 @@ import SwiftUI
 
 struct SettingsScreen: View {
     
-    private let alternateAppIcons: [String] = Constants.Settings.alternateAppIcons
+    @StateObject private var viewModel = SettingsViewModel()
+    @EnvironmentObject private var appearanceManager: AppearanceManager
+    @Environment(\.colorScheme) private var colorScheme
     
     var body: some View {
         List {
             HeaderView()
             MiddleContentView()
+            ThemeSectionView()
             FooterView()
+        }
+        .alert(Constants.Strings.Errors.alertTitle, isPresented: $viewModel.showError) {
+            Button("OK") {
+                viewModel.dismissError()
+            }
+        } message: {
+            if let errorMessage = viewModel.errorMessage {
+                Text(errorMessage)
+            }
         }
     }
     
@@ -41,7 +53,7 @@ struct SettingsScreen: View {
             }
             .foregroundStyle(
                 LinearGradient(
-                    colors: [.customGreenLight, .customGreenMedium, .customGreenDark],
+                    colors: Color.headerGradientColors(for: colorScheme),
                     startPoint: .top,
                     endPoint: .bottom
                 )
@@ -72,18 +84,11 @@ struct SettingsScreen: View {
         Section(header: Text(Constants.Strings.SettingsScreen.alternateIconsHeader)) {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Constants.Spacing.iconPreviewSpacing) {
-                    ForEach(alternateAppIcons.indices, id: \.self) { item in
+                    ForEach(viewModel.alternateAppIcons.indices, id: \.self) { item in
                         Button {
-                            UIApplication.shared.setAlternateIconName(alternateAppIcons[item]) { error in
-                                if error != nil {
-                                    print("\(Constants.Strings.Errors.iconChangeFailed) \(String(describing: error?.localizedDescription))")
-                                } else {
-                                    print(Constants.Strings.Errors.iconChangeSuccess)
-                                }
-                                
-                            }
+                            viewModel.changeAppIcon(to: viewModel.alternateAppIcons[item])
                         } label: {
-                            Image("\(alternateAppIcons[item])-Preview")
+                            Image("\(viewModel.alternateAppIcons[item])-Preview")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: Constants.Layout.iconPreviewSize, height: Constants.Layout.iconPreviewSize)
@@ -103,6 +108,34 @@ struct SettingsScreen: View {
                 .padding(.bottom, Constants.Settings.iconPreviewBottomPadding)
         }
         .listRowSeparator(.hidden)
+    }
+    
+    private func ThemeSectionView() -> some View {
+        Section(header: Text("Appearance")) {
+            ForEach(AppearanceTheme.allCases, id: \.self) { theme in
+                Button {
+                    appearanceManager.currentTheme = theme
+                } label: {
+                    HStack {
+                        Image(systemName: theme.iconName)
+                            .foregroundColor(appearanceManager.currentTheme == theme ? .customGreenMedium : .secondary)
+                            .font(.system(size: 20))
+                        
+                        Text(theme.displayName)
+                            .foregroundColor(.primary)
+                        
+                        Spacer()
+                        
+                        if appearanceManager.currentTheme == theme {
+                            Image(systemName: "checkmark")
+                                .foregroundColor(.customGreenMedium)
+                                .fontWeight(.semibold)
+                        }
+                    }
+                }
+                .buttonStyle(.plain)
+            }
+        }
     }
     
     private func FooterView() -> some View {
@@ -172,4 +205,5 @@ struct SettingsScreen: View {
 
 #Preview {
     SettingsScreen()
+        .environmentObject(AppearanceManager.shared)
 }

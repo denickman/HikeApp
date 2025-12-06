@@ -9,9 +9,8 @@ import SwiftUI
 
 struct CardView: View {
     
-    @State private var imageNumber: Int = 1
-    @State private var randomNumber: Int = 1
-    @State private var isShowingSheet = false
+    @StateObject private var viewModel = CardViewModel()
+    @Environment(\.colorScheme) private var colorScheme
     
     var body: some View {
         ZStack {
@@ -25,14 +24,6 @@ struct CardView: View {
         .frame(width: Constants.Layout.cardWidth, height: Constants.Layout.cardHeight)
     }
     
-    private func randomImage() {
-        repeat {
-            randomNumber = Int.random(in: Constants.Images.imageRange)
-        } while randomNumber == imageNumber
-        
-        imageNumber = randomNumber
-    }
-    
     private func HeaderView() -> some View {
         VStack(alignment: .leading) {
             HStack {
@@ -40,18 +31,21 @@ struct CardView: View {
                     .fontWeight(.black)
                     .font(.system(size: Constants.Typography.titleFontSize))
                     .foregroundStyle(
-                        LinearGradient(colors: [.customGrayLight, .customGrayMedium], startPoint: .top, endPoint: .bottom)
+                        LinearGradient(
+                            colors: Color.titleGradientColors(for: colorScheme),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
                     )
                 
                 Spacer()
                 
                 Button {
-                    // show a sheet
-                    isShowingSheet.toggle()
+                    viewModel.toggleSettingsSheet()
                 } label: {
                     CustomButtonView()
                 }
-                .sheet(isPresented: $isShowingSheet) {
+                .sheet(isPresented: $viewModel.isShowingSheet) {
                     SettingsScreen()
                         .presentationDragIndicator(.visible)
                         .presentationDetents([.medium, .large])
@@ -69,23 +63,23 @@ struct CardView: View {
     private func MiddleContent() -> some View {
         ZStack {
             CustomCircleView()
-            Image("image-\(imageNumber)")
+            Image(viewModel.currentImageName)
                 .resizable()
                 .scaledToFit()
-                .animation(.easeInOut(duration: Constants.Animation.imageTransitionDuration), value: imageNumber)
+                .animation(.easeInOut(duration: Constants.Animation.imageTransitionDuration), value: viewModel.imageNumber)
         }
     }
     
     private func FooterView() -> some View {
         Button {
-            randomImage()
+            viewModel.selectRandomImage()
         } label: {
             Text(Constants.Strings.CardView.exploreButton)
                 .font(.title2)
                 .fontWeight(.heavy)
                 .foregroundStyle(
                     LinearGradient(
-                        colors: [.customGreenLight, .customGreenMedium],
+                        colors: Color.buttonGradientColors(for: colorScheme),
                         startPoint: .top,
                         endPoint: .bottom
                     )

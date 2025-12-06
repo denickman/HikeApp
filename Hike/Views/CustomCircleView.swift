@@ -10,17 +10,14 @@ import SwiftUI
 struct CustomCircleView: View {
     
     @State private var isAnimationGradient = false
+    @Environment(\.colorScheme) private var colorScheme
     
     var body: some View {
         ZStack {
             Circle()
                 .fill(
                     LinearGradient(
-                        colors:
-                            [
-                                Color.customIndigoMedium,
-                                Color.colorSalmonLight
-                            ],
+                        colors: Color.circleGradientColors(for: colorScheme),
                         startPoint: isAnimationGradient ? .topLeading : .bottomLeading,
                         endPoint: isAnimationGradient ? .bottomTrailing : .topTrailing
                     )
